@@ -444,7 +444,7 @@
     .criterios-container {
       min-height: 260px;
       max-height: 320px;
-      overflow-y: auto; /* scroll vertical para ver todos los criterios */
+      overflow-y: auto;
     }
 
     .ranking-list {
@@ -512,7 +512,7 @@
       color: var(--text-main);
     }
 
-    /* CENTROS PAGE Y DEMÁS (igual que antes) */
+    /* CENTROS PAGE Y DEMÁS */
     .centros-top {
       display: grid;
       grid-template-columns: 1.2fr 1.2fr 1fr;
@@ -1071,7 +1071,7 @@
         grid-template-columns: 1fr;
       }
       .centros-top {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
     }
 
@@ -2331,17 +2331,26 @@
     /* 80 CRITERIOS: estructura global */
     const criteriosGlobal = new Map(); // nombre -> {nombre, suma, total}
     let criteriosDemoActivo = false;
-    let ultimoChecklistCentro = null;  // {centro, data}
+    let ultimoChecklistCentro = null;
     const globalCharts = {};
 
+    // NORMALIZADOR ROBUSTO DE PORCENTAJES
     function normalizarPorcentaje(v) {
       if (v == null || v === "") return 0;
-      let num = v;
-      if (typeof num !== "number") {
-        num = parseFloat(String(num).replace(",", "."));
-        if (isNaN(num)) return 0;
+      if (typeof v === "number") {
+        if (v <= 1) return Math.round(v * 100);
+        if (v > 100) return 100;
+        return Math.round(v);
       }
+      let s = String(v).replace(",", ".");
+      // extrae solo números y puntos (para cosas tipo "PRUEBAS (80%)")
+      const match = s.match(/[\d.]+/g);
+      if (!match) return 0;
+      s = match.join("");
+      const num = parseFloat(s);
+      if (isNaN(num)) return 0;
       if (num <= 1) return Math.round(num * 100);
+      if (num > 100) return 100;
       return Math.round(num);
     }
 
@@ -2353,101 +2362,70 @@
       const total = 80;
       for (let i = 1; i <= total; i++) {
         const nombre = `Criterio ${i}`;
-        const pct = 60 + Math.round(Math.random()*40); // 60–100 %
+        const pct = 60 + Math.round(Math.random()*40);
         criteriosGlobal.set(nombre, { nombre, suma: pct, total: 100 });
       }
       actualizarGraficoCriterios();
     }
 
-    /* NUEVA LÓGICA: LECTURA EXACTA DE CHECKLIST CORNER / EXCLUSIVO */
+    // LÓGICA DE PARSEO CHECKLISTS SEGÚN MAPEO ENTREGADO
     function parseChecklistRows(rows, tipo) {
       const criterios = [];
-
-      let startRow, endRow, procRow, procCol, convPrRow, convPrCol, convVenRow, convVenCol, hitRow, hitCol;
+      let rStart, rEnd, colCrit, colRes, filaProc, colProc, filaHit, colHit, filaPrueba, colPrueba, filaVenta, colVenta;
 
       if (tipo === "EXCLUSIVO") {
         // CHECKLIST EXCLUSIVO
-        startRow  = 8;    // B8–B102
-        endRow    = 102;
-        procRow   = 104;  // F104
-        procCol   = 5;    // F = índice 5
-        convPrRow = 126;  // I126
-        convPrCol = 8;    // I = índice 8
-        convVenRow= 127;  // I127
-        convVenCol= 8;
-        hitRow    = 65;   // F65
-        hitCol    = 5;
+        // Criterios: B8–B102  => filas 7–101, colCrit=1 (B), colRes=5 (F)
+        // % Procesos: F104    => fila 103, col 5
+        // HIT: F65            => fila 64, col 5
+        // Conv. prueba: I126  => fila 125, col 8 (I)
+        // Conv. venta:  I127  => fila 126, col 8 (I)
+        rStart = 7;  rEnd = 101; colCrit = 1; colRes = 5;
+        filaProc = 103; colProc = 5;
+        filaHit  = 64;  colHit  = 5;
+        filaPrueba = 125; colPrueba = 8; // I
+        filaVenta  = 126; colVenta  = 8;
       } else {
-        // CHECKLIST CORNER (por defecto)
-        tipo      = "CORNER";
-        startRow  = 7;    // B7–B88
-        endRow    = 88;
-        procRow   = 90;   // F90
-        procCol   = 5;
-        convPrRow = 92;   // B92
-        convPrCol = 1;    // B = índice 1
-        convVenRow= 93;   // B93
-        convVenCol= 1;
-        hitRow    = 63;   // F63
-        hitCol    = 5;
+        // CHECKLIST CORNER
+        // Criterios: B7–B88   => filas 6–87, colCrit=1 (B), colRes=5 (F)
+        // % Procesos: F90     => fila 89, col 5
+        // HIT: F63            => fila 62, col 5
+        // Conv. prueba: B92   => fila 91, col 1 (B)
+        // Conv. venta:  B93   => fila 92, col 1 (B)
+        rStart = 6;  rEnd = 87; colCrit = 1; colRes = 5;
+        filaProc = 89; colProc = 5;
+        filaHit  = 62; colHit  = 5;
+        filaPrueba = 91; colPrueba = 1; // B
+        filaVenta  = 92; colVenta  = 1;
       }
 
-      function celda(rowNum, colNum) {
-        const fila = rows[rowNum - 1] || [];
-        return fila[colNum] ?? null;
-      }
-
-      let aplicaCount = 0;
-      let totalCriterios = 0;
-
-      for (let r = startRow; r <= endRow; r++) {
-        const fila = rows[r - 1] || [];
-        const nombre = fila[1];  // Columna B (índice 1)
+      for (let r=rStart; r<=rEnd && r<rows.length; r++) {
+        const row = rows[r] || [];
+        const nombre = row[colCrit];
         if (!nombre) continue;
-
-        const val = fila[5];     // Columna F (índice 5)
-        const aplica = Number(val) === 1;
-
-        criterios.push({
-          nombre: String(nombre).trim(),
-          aplica: aplica ? 1 : 0
-        });
-
-        totalCriterios++;
-        if (aplica) aplicaCount++;
+        const val = row[colRes];
+        const aplica = Number(val) === 1 ? 1 : 0;
+        criterios.push({ nombre: String(nombre).trim(), aplica });
       }
 
-      const procesosCalc = totalCriterios
-        ? clampPct(Math.round(100 * aplicaCount / totalCriterios))
-        : 0;
+      const rowProc   = rows[filaProc]   || [];
+      const rowHit    = rows[filaHit]    || [];
+      const rowPrueba = rows[filaPrueba] || [];
+      const rowVenta  = rows[filaVenta]  || [];
 
-      let procesosPct = procesosCalc;
-      const procCell = celda(procRow, procCol);
-      if (procCell !== null && procCell !== "") {
-        const pct = normalizarPorcentaje(procCell);
-        if (!isNaN(pct) && pct > 0) procesosPct = pct;
-      }
+      const procesosRaw   = rowProc[colProc];
+      const hitRaw        = rowHit[colHit];
+      const pruebaRaw     = rowPrueba[colPrueba];
+      const ventaRaw      = rowVenta[colVenta];
 
-      const convPrVal  = celda(convPrRow,  convPrCol);
-      const convVenVal = celda(convVenRow, convVenCol);
+      const procesosPct   = clampPct(normalizarPorcentaje(procesosRaw));
+      const convPruebaPct = clampPct(normalizarPorcentaje(pruebaRaw));
+      const convVentaPct  = clampPct(normalizarPorcentaje(ventaRaw));
+      const hit           = Number(hitRaw) === 1 || String(hitRaw).toUpperCase() === "SI";
 
-      const convPruebaPct = convPrVal  !== null && convPrVal  !== "" ? normalizarPorcentaje(convPrVal)  : 0;
-      const convVentaPct  = convVenVal !== null && convVenVal !== "" ? normalizarPorcentaje(convVenVal) : 0;
+      const areasMejora = criterios.filter(c => !c.aplica).length;
 
-      const hitVal = celda(hitRow, hitCol);
-      const hitPct = Number(hitVal) === 1 ? 100 : 0;
-
-      const areasMejora = totalCriterios - aplicaCount;
-
-      return {
-        tipo,
-        procesosPct,
-        convPruebaPct,
-        convVentaPct,
-        hitPct,
-        criterios,
-        areasMejora
-      };
+      return { tipo, procesosPct, convPruebaPct, convVentaPct, hit, criterios, areasMejora };
     }
 
     function integrarChecklistEnMetricas(centroNombre, parsed) {
@@ -2482,9 +2460,9 @@
       const labels = top.map(i => i.nombre);
       const data   = top.map(i => i.pct);
       const colors = top.map(i =>
-        i.pct >= 100 ? "#16a34a" :     // 100% Óptimo
-        i.pct >= 85  ? "#22c55e" :     // 85–99% Muy bien
-                       "#ef4444"       // <85% Mejorable
+        i.pct >= 100 ? "#16a34a" :
+        i.pct >= 85  ? "#22c55e" :
+                       "#ef4444"
       );
 
       const msg = $("#criteriosEmptyMsg");
@@ -2551,51 +2529,49 @@
       }
     }
 
-    /* NUEVA LÓGICA: PROCESAR CHECKLIST COMPLETO */
+    // CORREGIDO: lectura robusta de checklist, hoja PROCESOS Y BÁSICOS
     function procesarChecklist(file, centroNombre) {
       const reader = new FileReader();
-
       reader.onload = evt => {
         try {
           const data = new Uint8Array(evt.target.result);
           const workbook = XLSX.read(data, { type: "array" });
 
+          // Buscar hoja que contenga "PROCESOS" (PROCESOS Y BÁSICOS)
+          const upperSheetNames = workbook.SheetNames.map(n => n.toUpperCase());
+          let sheetIndex = upperSheetNames.findIndex(n => n.includes("PROCESOS"));
+          if (sheetIndex === -1) sheetIndex = 0;
+          const sheetName = workbook.SheetNames[sheetIndex];
+          const sheet = workbook.Sheets[sheetName];
+
+          if (!sheet) {
+            throw new Error("Hoja de procesos no encontrada en el checklist");
+          }
+
+          const rows = XLSX.utils.sheet_to_json(sheet, { header:1 });
+
           const nameUpper = file.name.toUpperCase();
           let tipo = "CORNER";
-          if (nameUpper.includes("EXCLUS")) tipo = "EXCLUSIVO";
+          if (nameUpper.includes("EXCLUSIVO")) tipo = "EXCLUSIVO";
           else if (nameUpper.includes("CORNER")) tipo = "CORNER";
 
-          let sheetName =
-            workbook.SheetNames.find(n => n.toUpperCase().includes("PROCESOS")) ||
-            workbook.SheetNames.find(n => n.toUpperCase().includes("BÁSIC"))    ||
-            workbook.SheetNames.find(n => n.toUpperCase().includes("CHECKLIST"))||
-            workbook.SheetNames[0];
-
-          const sheet = workbook.Sheets[sheetName];
-          const rows  = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true });
-
           const parsed = parseChecklistRows(rows, tipo);
-
           ultimoChecklistCentro = { centro: centroNombre, data: parsed };
-
           integrarChecklistEnMetricas(centroNombre, parsed);
 
-          $("#kpiCentroProcesos").textContent = parsed.procesosPct   + "%";
+          // KPIs de centro desde checklist
+          $("#kpiCentroProcesos").textContent = parsed.procesosPct + "%";
           $("#kpiCentroPrueba").textContent   = parsed.convPruebaPct + "%";
-          $("#kpiCentroVenta").textContent    = parsed.convVentaPct  + "%";
-          $("#kpiCentroHit").textContent      = parsed.hitPct        + "%";
+          $("#kpiCentroVenta").textContent    = parsed.convVentaPct + "%";
+          $("#kpiCentroHit").textContent      = parsed.hit ? "Sí" : "No";
 
+          crearChartsCentro();
           actualizarChartsCentro();
-
         } catch (err) {
-          console.error("Error leyendo checklist:", err);
-          alert(
-            "No se ha podido leer el checklist con la lógica definida (B7–B88 / B8–B102, etc.). " +
-            "Revisa que estás usando los archivos CHECKLIST CORNER o CHECKLIST EXCLUSIVO originales."
-          );
+          console.error("Error procesando checklist:", err);
+          alert("No se ha podido leer el checklist. Revisa que sea el CHECKLIST CORNER o CHECKLIST EXCLUSIVO correcto.");
         }
       };
-
       reader.readAsArrayBuffer(file);
     }
 
@@ -2854,41 +2830,34 @@
       });
     }
 
-    /* NUEVA LÓGICA: ACTUALIZAR GRÁFICOS DEL CENTRO CON CHECKLIST */
     function actualizarChartsCentro() {
       if (!centroChartsCreated) return;
-
       const { formaciones, screening } = calcularFormacionesYScreening();
-
-      let procesos    = 90;
-      let convPrueba  = 82;
-      let convVenta   = 78;
-      let hitVal      = 80;
+      let procesos   = 90;
+      let convPrueba = 82;
+      let convVenta  = 78;
+      let hitVal     = 80;
       let areasMejora = 4;
 
-      const parsed = (
-        ultimoChecklistCentro &&
-        centroActual &&
-        ultimoChecklistCentro.centro === centroActual.centro
-      )
+      const parsed = (ultimoChecklistCentro && centroActual && ultimoChecklistCentro.centro === centroActual.centro)
         ? ultimoChecklistCentro.data
         : null;
 
       if (parsed) {
         procesos    = parsed.procesosPct;
-        if (parsed.convPruebaPct != null) convPrueba  = parsed.convPruebaPct;
-        if (parsed.convVentaPct  != null) convVenta   = parsed.convVentaPct;
-        if (parsed.areasMejora   != null) areasMejora = parsed.areasMejora;
-        if (parsed.hitPct        != null) hitVal      = parsed.hitPct;
+        convPrueba  = parsed.convPruebaPct;
+        convVenta   = parsed.convVentaPct;
+        areasMejora = parsed.areasMejora;
+        hitVal      = parsed.hit ? 90 : 60;
       }
 
       const flags = getChecklistFlags();
       const primerosPct = flags.primeros ? 100 : 0;
 
-      $("#kpiCentroProcesos").textContent = procesos   + "%";
+      $("#kpiCentroProcesos").textContent = procesos + "%";
       $("#kpiCentroPrueba").textContent   = convPrueba + "%";
-      $("#kpiCentroVenta").textContent    = convVenta  + "%";
-      $("#kpiCentroHit").textContent      = hitVal     + "%";
+      $("#kpiCentroVenta").textContent    = convVenta + "%";
+      $("#kpiCentroHit").textContent      = parsed ? (parsed.hit ? "Sí" : "No") : (hitVal + "%");
 
       centroCharts.radar.data.datasets[0].data = [
         formaciones,
@@ -2900,17 +2869,9 @@
       centroCharts.radar.update();
 
       const valores = [
-        flags.aar,
-        flags.hit,
-        flags.primeros,
-        flags.infinity,
-        flags.seguros,
-        flags.tchin,
-        flags.rt,
-        flags.elemAudio,
-        flags.mgm
-      ].map(b => (b ? 1 : 0));
-
+        flags.aar, flags.hit, flags.primeros, flags.infinity, flags.seguros,
+        flags.tchin, flags.rt, flags.elemAudio, flags.mgm
+      ].map(b => b ? 1 : 0);
       centroCharts.barras.data.datasets[0].data = valores;
       centroCharts.barras.update();
 
@@ -2919,28 +2880,16 @@
       centroCharts.donut.data.datasets[0].data = [siCount, noCount];
       centroCharts.donut.update();
 
-      centroCharts.procResumen.data.datasets[0].data = [procesos, Math.max(0, 100 - procesos)];
+      centroCharts.procResumen.data.datasets[0].data = [procesos, 100-procesos];
       centroCharts.procResumen.update();
 
-      centroCharts.areasResumen.data.datasets[0].data = [
-        areasMejora,
-        Math.max(0, 10 - areasMejora)
-      ];
+      centroCharts.areasResumen.data.datasets[0].data = [areasMejora, Math.max(0, 10-areasMejora)];
       centroCharts.areasResumen.update();
 
       centroCharts.convResumen.data.datasets[0].data = [convPrueba, convVenta];
       centroCharts.convResumen.update();
 
-      centroMetricsActual = {
-        procesos,
-        convPrueba,
-        convVenta,
-        hit: hitVal,
-        formaciones,
-        screening,
-        primeros: primerosPct,
-        areasMejora
-      };
+      centroMetricsActual = { procesos, convPrueba, convVenta, hit: hitVal, formaciones, screening, primeros: primerosPct, areasMejora };
     }
 
     document.addEventListener("change", e => {
@@ -3032,7 +2981,19 @@
         dashboardAcum.areas      += centroMetricsActual.areasMejora || 0;
         dashboardAcum.n += 1;
         actualizarDashboardDesdeAcum();
+
+        // Actualizar contador de informes y estado AAR en la tabla
         informesPorCentro[centroActual.centro] = (informesPorCentro[centroActual.centro] || 0) + 1;
+
+        if (flags.aar) {
+          centroActual.aar = "Sí";
+        } else if (flags.hit) {
+          centroActual.aar = "En formación";
+        } else {
+          centroActual.aar = "No";
+        }
+        aarPorCentro[centroActual.centro] = centroActual.aar;
+
         renderTablaCentros();
       }
       if (visitaActual) {
