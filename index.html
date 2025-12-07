@@ -142,15 +142,15 @@
     .topbar {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       justify-content: flex-end;
     }
 
     .btn {
       border-radius: 999px;
-      padding: 8px 14px;
+      padding: 6px 12px;
       border: 1px solid #ef4444;
-      font-size: .8rem;
+      font-size: .78rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -232,28 +232,28 @@
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      padding: 7px 12px;
+      gap: 6px;
+      padding: 5px 10px;
       border-radius: 999px;
-      font-size: .78rem;
+      font-size: .76rem;
       cursor: default;
       border: 1px solid #b91c1c;
       background: #ef4444;
       color: #fef2f2;
-      box-shadow: 0 5px 12px rgba(239,68,68,0.55);
-      min-width: 200px;
+      box-shadow: 0 4px 10px rgba(239,68,68,0.45);
+      min-width: 160px;
     }
 
     body.light-theme .kpi-pill {
       background: #ef4444;
       color: #fef2f2;
-      box-shadow: 0 5px 12px rgba(239,68,68,0.45);
+      box-shadow: 0 4px 10px rgba(239,68,68,0.35);
     }
 
     .kpi-main-block {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
     }
 
     .kpi-label {
@@ -262,62 +262,34 @@
 
     .kpi-value {
       font-weight: 700;
-      font-size: .84rem;
+      font-size: .8rem;
     }
 
     .kpi-status {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      padding: 2px 6px;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
       border-radius: 999px;
-      font-size: .7rem;
-      border: 1px solid transparent;
+      border: 2px solid rgba(248,250,252,0.9);
       background: rgba(15,23,42,0.28);
     }
 
     .kpi-status-icon {
-      font-size: .8rem;
-    }
-
-    .kpi-status-text {
-      font-weight: 600;
+      font-size: .7rem;
     }
 
     .kpi-status.optimo {
-      background: rgba(22,163,74,0.2);
-      border-color: rgba(22,163,74,0.8);
-      color: #bbf7d0;
+      background: rgba(22,163,74,0.15);
     }
 
     .kpi-status.muybien {
-      background: rgba(234,179,8,0.2);
-      border-color: rgba(234,179,8,0.8);
-      color: #fef3c7;
+      background: rgba(234,179,8,0.15);
     }
 
     .kpi-status.mejorable {
       background: rgba(220,38,38,0.2);
-      border-color: rgba(220,38,38,0.8);
-      color: #fecaca;
-    }
-
-    body.light-theme .kpi-status.optimo {
-      background: #dcfce7;
-      border-color: #22c55e;
-      color: #166534;
-    }
-
-    body.light-theme .kpi-status.muybien {
-      background: #fef9c3;
-      border-color: #eab308;
-      color: #854d0e;
-    }
-
-    body.light-theme .kpi-status.mejorable {
-      background: #fee2e2;
-      border-color: #ef4444;
-      color: #991b1b;
     }
 
     /* Cards y gráficos */
@@ -327,6 +299,7 @@
       padding: 14px 14px 12px;
       border: 1px solid rgba(15,23,42,.9);
       box-shadow: var(--shadow-soft);
+      position: relative;
     }
 
     body.light-theme .card {
@@ -337,7 +310,7 @@
 
     .card h3 {
       font-size: .9rem;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .card-sub {
@@ -346,12 +319,31 @@
       margin-bottom: 10px;
     }
 
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: .68rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(148,163,184,0.22);
+      color: var(--text-muted);
+    }
+
     .grid-main {
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
       gap: 16px;
       align-items: stretch;
       margin-top: 8px;
+    }
+
+    .grid-bottom {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 16px;
+      align-items: stretch;
     }
 
     .chart-container {
@@ -364,17 +356,7 @@
       height: 260px;
     }
 
-    /* Criterios procesos (parte inferior derecha) */
-    .criteria-wrapper {
-      margin-top: 18px;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .criteria-card {
-      width: min(480px, 100%);
-    }
-
+    /* Criterios procesos */
     .criteria-list {
       list-style: none;
       padding: 0;
@@ -482,14 +464,9 @@
       .main {
         padding: 14px;
       }
-      .grid-main {
+      .grid-main,
+      .grid-bottom {
         grid-template-columns: 1fr;
-      }
-      .criteria-wrapper {
-        justify-content: stretch;
-      }
-      .criteria-card {
-        width: 100%;
       }
     }
   </style>
@@ -572,9 +549,8 @@
             <span class="kpi-label">Procesos aplicados</span>
             <span class="kpi-value" id="kpiProcesos">92%</span>
           </div>
-          <span class="kpi-status">
+          <span class="kpi-status" title="">
             <span class="kpi-status-icon"></span>
-            <span class="kpi-status-text"></span>
           </span>
         </div>
 
@@ -583,9 +559,8 @@
             <span class="kpi-label">HIT global</span>
             <span class="kpi-value" id="kpiHit">100%</span>
           </div>
-          <span class="kpi-status">
+          <span class="kpi-status" title="">
             <span class="kpi-status-icon"></span>
-            <span class="kpi-status-text"></span>
           </span>
         </div>
 
@@ -594,9 +569,8 @@
             <span class="kpi-label">Primeros auxilios</span>
             <span class="kpi-value" id="kpiPrimerosAuxilios">63%</span>
           </div>
-          <span class="kpi-status">
+          <span class="kpi-status" title="">
             <span class="kpi-status-icon"></span>
-            <span class="kpi-status-text"></span>
           </span>
         </div>
 
@@ -605,9 +579,8 @@
             <span class="kpi-label">Conv. a prueba</span>
             <span class="kpi-value" id="kpiConvPrueba">72%</span>
           </div>
-          <span class="kpi-status">
+          <span class="kpi-status" title="">
             <span class="kpi-status-icon"></span>
-            <span class="kpi-status-text"></span>
           </span>
         </div>
 
@@ -616,9 +589,8 @@
             <span class="kpi-label">Conv. a venta</span>
             <span class="kpi-value" id="kpiConvVenta">81%</span>
           </div>
-          <span class="kpi-status">
+          <span class="kpi-status" title="">
             <span class="kpi-status-icon"></span>
-            <span class="kpi-status-text"></span>
           </span>
         </div>
 
@@ -627,18 +599,18 @@
             <span class="kpi-label">Formaciones</span>
             <span class="kpi-value" id="kpiFormaciones">88%</span>
           </div>
-          <span class="kpi-status">
+          <span class="kpi-status" title="">
             <span class="kpi-status-icon"></span>
-            <span class="kpi-status-text"></span>
           </span>
         </div>
       </section>
     </div>
 
-    <!-- Gráficos -->
+    <!-- Gráficos principales -->
     <section class="grid-main">
       <!-- Evolución mensual -->
       <article class="card">
+        <span class="card-badge">% demo</span>
         <h3>Evolución mensual de procesos y resultados</h3>
         <p class="card-sub">
           Barras de % procesos aplicados y curvas de HIT, conversión a prueba y conversión a venta
@@ -650,6 +622,7 @@
 
       <!-- Estado de visitas -->
       <article class="card">
+        <span class="card-badge">% demo</span>
         <h3>Estado de visitas</h3>
         <p class="card-sub">
           Distribución de visitas realizadas, pendientes y anuladas · Ene – Dic
@@ -661,6 +634,7 @@
 
       <!-- Área de mejora -->
       <article class="card">
+        <span class="card-badge">% demo</span>
         <h3>Área de mejora de procesos</h3>
         <p class="card-sub">
           Top 10 criterios con mayor porcentaje de procesos no aplicados
@@ -672,17 +646,22 @@
 
       <!-- Ranking delegados -->
       <article class="card">
+        <span class="card-badge>% demo</span>
         <h3>Ranking por delegados · índice global</h3>
         <p class="card-sub">
-          Índice global (promedio de todos sus centros evaluados) · se muestran solo los 5 primeros delegados
+          Índice global promedio de todos sus centros evaluados · Top 5 delegados
         </p>
         <div class="chart-container tall">
           <canvas id="chartDelegados"></canvas>
         </div>
       </article>
+    </section>
 
+    <!-- Bloque inferior alineado: indicadores + criterios -->
+    <section class="grid-bottom">
       <!-- % Procesos, HIT y ARR -->
       <article class="card">
+        <span class="card-badge">% demo</span>
         <h3>Indicadores globales · Procesos, HIT y ARR</h3>
         <p class="card-sub">
           % global de procesos aplicados, HIT y ARR en el conjunto de centros evaluados
@@ -691,11 +670,9 @@
           <canvas id="chartProcesosHitArr"></canvas>
         </div>
       </article>
-    </section>
 
-    <!-- Criterios de procesos (inferior derecho) -->
-    <section class="criteria-wrapper">
-      <article class="card criteria-card">
+      <!-- Criterios procesos -->
+      <article class="card">
         <h3>Criterios de procesos evaluados</h3>
         <p class="card-sub">
           Checklist unificada (Corner + Exclusivo). Se muestran primero los criterios comunes en el orden Corner.
@@ -710,9 +687,9 @@
   </main>
 
   <script>
-    // --- Datos demo gráficos ---
+    // ------- GRÁFICOS (Chart.js) --------
 
-    // 1. Evolución mensual
+    // 1. Evolución mensual: barras + líneas
     const ctxEvo = document.getElementById('chartEvolucion').getContext('2d');
     const chartEvolucion = new Chart(ctxEvo, {
       type: 'bar',
@@ -763,7 +740,13 @@
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            labels: { color: '#e5e7eb', font: { size: 11 } }
+            position: 'top',
+            align: 'center',
+            labels: {
+              usePointStyle: true,
+              color: '#e5e7eb',
+              font: { size: 11 }
+            }
           }
         },
         scales: {
@@ -777,7 +760,9 @@
               font: { size: 10 },
               callback: value => value + '%'
             },
-            grid: { color: 'rgba(31,41,55,0.35)' }
+            grid: { color: 'rgba(31,41,55,0.35)' },
+            suggestedMin: 0,
+            suggestedMax: 100
           }
         }
       }
@@ -806,6 +791,11 @@
           legend: {
             position: 'bottom',
             labels: { color: '#e5e7eb', font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.label}: ${ctx.parsed}%`
+            }
           }
         },
         cutout: '65%'
@@ -846,7 +836,7 @@
           },
           tooltip: {
             callbacks: {
-              label: ctx => ctx.parsed.x + '% no aplicado'
+              label: ctx => `${ctx.parsed.x}% no aplicado`
             }
           }
         },
@@ -857,7 +847,9 @@
               font: { size: 10 },
               callback: value => value + '%'
             },
-            grid: { color: 'rgba(31,41,55,0.35)' }
+            grid: { color: 'rgba(31,41,55,0.35)' },
+            suggestedMin: 0,
+            suggestedMax: 100
           },
           y: {
             ticks: { color: '#9ca3af', font: { size: 10 } },
@@ -877,7 +869,7 @@
       data: {
         labels: labelsDelegados,
         datasets: [{
-          label: 'Índice global delegado',
+          label: '% índice global delegado',
           data: dataIndiceGlobal,
           backgroundColor: [
             'rgba(59,130,246,0.9)',
@@ -897,7 +889,7 @@
             labels: { color: '#e5e7eb', font: { size: 11 } }
           },
           tooltip: {
-            callbacks: { label: ctx => ctx.parsed.y + ' · índice global' }
+            callbacks: { label: ctx => `${ctx.parsed.y}% · índice global` }
           }
         },
         scales: {
@@ -906,9 +898,13 @@
             grid: { color: 'rgba(31,41,55,0.35)' }
           },
           y: {
-            ticks: { color: '#9ca3af', font: { size: 10 } },
+            ticks: {
+              color: '#9ca3af',
+              font: { size: 10 },
+              callback: value => value + '%'
+            },
             grid: { color: 'rgba(31,41,55,0.35)' },
-            suggestedMin: 60,
+            suggestedMin: 50,
             suggestedMax: 100
           }
         }
@@ -940,7 +936,7 @@
             labels: { color: '#e5e7eb', font: { size: 11 } }
           },
           tooltip: {
-            callbacks: { label: ctx => ctx.parsed.y + '%' }
+            callbacks: { label: ctx => `${ctx.parsed.y}%` }
           }
         },
         scales: {
@@ -962,10 +958,9 @@
       }
     });
 
-    // --- Criterios de procesos (demo unificado Corner + Exclusivo) ---
+    // --- Criterios de procesos (unificado Corner + Exclusivo, DEMO) ---
+    // Para la demo se incluyen muchos criterios reales + genéricos.
     const CRITERIOS_PROCESOS = [
-      "Espacio audio limpio, ordenado",
-      "Espéculos, olivas y cascos desinfectados",
       "Acogida al cliente con una sonrisa, amable y cercano",
       "Llamar al paciente por su nombre",
       "Acompañar al paciente al gabinete para la revisión auditiva",
@@ -973,23 +968,90 @@
       "Confirmar motivo de visita",
       "Preguntar cómo nos ha conocido",
       "Presentarnos por nombre, especialidad",
-      "Presentar a la Compañía, su expansión, calidad de equipos y productos lideres de última generación.",
+      "Presentar a la Compañía, su expansión y calidad de equipos y producto",
       "Abrir ficha y Rellenar RGPD completa (incluido cheks condiciones comerciales)",
-      "Realizar anamnesis HACE, respetando cada parte de la anamnesis, Hábitos, Antecedentes, Clínica y Expectativas",
-      "Anotar 2 expectativas , necesidades concretas (si no es en esta etapa, al finalizar)",
-      "Explicar que realizamos un examen auditivo completo, en qué consiste cada prueba y su finalidad.",
-      "Realiza una breve explicación en cada  prueba y asegurarnos que lo ha entendido",
-      "La TV debe estar encendida siempre para comunicar Audio y mostrar resultados de las pruebas",
-      "Evaluamos ambos oídos con la Videotoscopia y explica procedimiento",
-      "Realiza  Timpanometría y explica procedimiento",
-      "Realiza VA y explica procedimiento",
-      "Realiza VO y explica el procedimiento",
-      "Realiza UCL, explica el procedimiento y está atento a las reacciones. Si no es posible hacerlo debe marcarlo \"estimado\"",
-      "Realiza Logoaudiometría, explica procedimiento.",
-      "Resume los resultados . Explicación.",
-      "Utiliza las gráficas para apoyarse y que sea más visible cada explicación. (severidad, área audible. Fonemas...)",
-      "Vincula resultados con síntomas o quejas mencionadas en la anamnesis"
-      // ... aquí se podrían añadir el resto de criterios si se desea el checklist completo
+      "Realizar anamnesis HACE (Hábitos, Antecedentes, Clínica, Expectativas)",
+      "Explicar que realizamos un examen auditivo completo y en qué consiste",
+      "Equipos previamente desinfectados",
+      "Explicar brevemente cada prueba y asegurarnos que lo ha entendido",
+      "Evaluar ambos oídos con la videotoscopia",
+      "Realizar timpanometría",
+      "Realizar VA-VO-UCL",
+      "Realizar logoaudiometría",
+      "Resumir resultados y explicar con ayuda de gráficas",
+      "Vincular resultados con síntomas comentados en la anamnesis",
+      "Simular sonidos para hacer visible la pérdida auditiva",
+      "Explicar la prueba de capacidades auditivas (prueba HIT / ARR) como demo",
+      "Disponer de stock de audífonos según agenda y tráfico",
+      "Escoger audífono según perfil en gama recomendada",
+      "Realizar programación inicial y ajustes según perfil",
+      "Explicar manejo básico de los audífonos al cliente",
+      "Entregar documentación (contrato, presupuesto, pasaporte)",
+      "Registrar la prueba en el sistema (Gio)",
+      "Explicar política comercial (segunda pareja, compromisos, etc.)",
+      "Informar que se llamará al día siguiente para seguimiento",
+      "Citar revisión a los 4 días",
+      "Explicar qué anotar en el pasaporte (me molesta / estoy bien, etc.)",
+      "Resaltar logros de expectativas y ajustes en cada visita",
+      "Resolver objeciones",
+      "Explicar facilidades de pago (Infinity, NextYear, etc.)",
+      "Resumir compromisos y packs Serenidad / Serenidad + / HIT",
+      "Recomendar igualar gama de segunda pareja",
+      "Entregar kit de higiene y enseñar su uso",
+      "Ofrecer ajustes en remoto a los 3 y 6 meses",
+      "Revisión a 7 días tras la adaptación",
+      "Revisión al mes",
+      "Revisión a los 3 meses",
+      "Revisión cada 6/12 meses",
+      "Control de satisfacción y NPS",
+      "Registrar devoluciones y motivo",
+      "Registrar derivaciones a ORL",
+      "Registrar reubicaciones a otros centros",
+      "Teleaudiometría activada y explicada",
+      "Uso de recordatorios SMS / email para citas",
+      "Plan de fidelización aplicado",
+      "Registro de competidor mencionado por el cliente",
+      // A partir de aquí se añaden criterios demo genéricos para completar más de 80
+      "Criterio proceso demo 51",
+      "Criterio proceso demo 52",
+      "Criterio proceso demo 53",
+      "Criterio proceso demo 54",
+      "Criterio proceso demo 55",
+      "Criterio proceso demo 56",
+      "Criterio proceso demo 57",
+      "Criterio proceso demo 58",
+      "Criterio proceso demo 59",
+      "Criterio proceso demo 60",
+      "Criterio proceso demo 61",
+      "Criterio proceso demo 62",
+      "Criterio proceso demo 63",
+      "Criterio proceso demo 64",
+      "Criterio proceso demo 65",
+      "Criterio proceso demo 66",
+      "Criterio proceso demo 67",
+      "Criterio proceso demo 68",
+      "Criterio proceso demo 69",
+      "Criterio proceso demo 70",
+      "Criterio proceso demo 71",
+      "Criterio proceso demo 72",
+      "Criterio proceso demo 73",
+      "Criterio proceso demo 74",
+      "Criterio proceso demo 75",
+      "Criterio proceso demo 76",
+      "Criterio proceso demo 77",
+      "Criterio proceso demo 78",
+      "Criterio proceso demo 79",
+      "Criterio proceso demo 80",
+      "Criterio proceso demo 81",
+      "Criterio proceso demo 82",
+      "Criterio proceso demo 83",
+      "Criterio proceso demo 84",
+      "Criterio proceso demo 85",
+      "Criterio proceso demo 86",
+      "Criterio proceso demo 87",
+      "Criterio proceso demo 88",
+      "Criterio proceso demo 89",
+      "Criterio proceso demo 90"
     ];
 
     const MAX_VISIBLE_CRITERIOS = 12;
@@ -1128,23 +1190,22 @@
       renderCriterios();
     }
 
-    // Clasificación de KPIs:
-    // Procesos, HIT, Primeros auxilios y Formaciones:
-    //  Óptimos = 100%
-    //  Muy bien = 85%-99%
-    //  Mejorable = <85%
-    // Conversiones (prueba y venta):
-    //  Óptimas = >=80%
-    //  Mejorable = <80%
+    // Clasificación KPIs:
+    // Procesos, HIT, Primeros auxilios, Formaciones:
+    //   Óptimos = 100%
+    //   Muy bien = 85–99%
+    //   Mejorable = <85%
+    // Conversiones:
+    //   Óptimas = >= 80%
+    //   Mejorable = < 80%
     function actualizarEstadosKpi() {
       const kpiPills = document.querySelectorAll('.kpi-pill');
       kpiPills.forEach(pill => {
-        const type = pill.getAttribute('data-kpi-type'); // 'process' o 'conversion'
+        const type = pill.getAttribute('data-kpi-type');
         const valueEl = pill.querySelector('.kpi-value');
         const statusWrapper = pill.querySelector('.kpi-status');
         const iconEl = statusWrapper.querySelector('.kpi-status-icon');
-        const textEl = statusWrapper.querySelector('.kpi-status-text');
-        if (!valueEl || !statusWrapper || !iconEl || !textEl) return;
+        if (!valueEl || !statusWrapper || !iconEl) return;
 
         const raw = valueEl.textContent.trim().replace('%', '');
         const value = parseFloat(raw);
@@ -1152,37 +1213,38 @@
 
         let estado = 'mejorable';
         let texto = 'Mejorable';
+        let icon = '🔴';
 
         if (type === 'conversion') {
           if (value >= 80) {
             estado = 'optimo';
             texto = 'Óptimo';
+            icon = '🟢';
           } else {
             estado = 'mejorable';
             texto = 'Mejorable';
+            icon = '🔴';
           }
         } else {
           if (value >= 100) {
             estado = 'optimo';
             texto = 'Óptimo';
+            icon = '🟢';
           } else if (value >= 85) {
             estado = 'muybien';
             texto = 'Muy bien';
+            icon = '🟡';
           } else {
             estado = 'mejorable';
             texto = 'Mejorable';
+            icon = '🔴';
           }
         }
 
         statusWrapper.classList.remove('optimo', 'muybien', 'mejorable');
         statusWrapper.classList.add(estado);
-
-        let icon = '🌡️🔴';
-        if (estado === 'optimo') icon = '🌡️🟢';
-        else if (estado === 'muybien') icon = '🌡️🟡';
-
+        statusWrapper.title = texto + ' · dato demo';
         iconEl.textContent = icon;
-        textEl.textContent = texto;
       });
     }
 
@@ -1193,13 +1255,13 @@
       saveConfig();
     });
 
-    // Botón Guardar vista
+    // Guardar vista
     btnSaveView.addEventListener('click', () => {
       saveConfig();
       showToast('Preferencias guardadas en este navegador');
     });
 
-    // Botón Exportar HTML
+    // Exportar HTML
     btnExportHtml.addEventListener('click', () => {
       try {
         const htmlCompleto = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
@@ -1219,7 +1281,7 @@
       }
     });
 
-    // Botón Actualizar nube (demo)
+    // Actualizar nube (demo)
     btnSyncCloud.addEventListener('click', () => {
       showToast('Sincronización con la nube simulada (demo)');
     });
