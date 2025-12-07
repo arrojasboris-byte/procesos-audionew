@@ -222,10 +222,21 @@
     /* KPI pills */
     .kpi-row {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 8px;
       margin-top: 10px;
       margin-bottom: 2px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .kpi-row::-webkit-scrollbar {
+      height: 4px;
+    }
+    .kpi-row::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.7);
+      border-radius: 999px;
     }
 
     .kpi-pill {
@@ -241,7 +252,8 @@
       background: #ef4444;
       color: #fef2f2;
       box-shadow: 0 4px 10px rgba(239,68,68,0.45);
-      min-width: 160px;
+      min-width: 150px;
+      flex-shrink: 0;
     }
 
     body.light-theme .kpi-pill {
@@ -366,17 +378,21 @@
       gap: 4px;
       font-size: .76rem;
       max-height: 210px;
-      overflow: hidden;
+      overflow-y: auto;
+    }
+
+    .criteria-list::-webkit-scrollbar {
+      width: 4px;
+    }
+    .criteria-list::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,0.7);
+      border-radius: 999px;
     }
 
     .criteria-item {
       display: flex;
       gap: 6px;
       align-items: flex-start;
-    }
-
-    .criteria-item.hidden {
-      display: none;
     }
 
     .criteria-index {
@@ -430,6 +446,77 @@
       background: rgba(148,163,184,0.12);
     }
 
+    /* Informe de visita */
+    .visit-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr);
+      gap: 12px;
+      margin-top: 4px;
+      font-size: .78rem;
+    }
+
+    .visit-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 6px;
+    }
+
+    .visit-label {
+      font-size: .72rem;
+      color: var(--text-muted);
+    }
+
+    .visit-input,
+    .visit-select,
+    .visit-textarea {
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      padding: 5px 8px;
+      font-size: .78rem;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .visit-textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    body.light-theme .visit-input,
+    body.light-theme .visit-select,
+    body.light-theme .visit-textarea {
+      background: #f9fafb;
+      color: #111827;
+      border-color: #d1d5db;
+    }
+
+    .visit-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 8px;
+    }
+
+    .visit-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .visit-tag {
+      font-size: .7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      background: rgba(15,23,42,0.6);
+    }
+
+    body.light-theme .visit-tag {
+      background: #f3f4f6;
+    }
+
     /* Toasts */
     .toast {
       position: fixed;
@@ -453,6 +540,31 @@
       transform: translateY(6px);
     }
 
+    /* Print styles */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+      body {
+        background: #ffffff !important;
+      }
+      .sidebar {
+        display: none !important;
+      }
+      .topbar .btn,
+      .filters-row {
+        display: none !important;
+      }
+      .main {
+        padding: 0 !important;
+      }
+      .card {
+        box-shadow: none !important;
+        margin-bottom: 6px;
+      }
+    }
+
     /* Responsivo */
     @media (max-width: 960px) {
       .sidebar {
@@ -465,7 +577,8 @@
         padding: 14px;
       }
       .grid-main,
-      .grid-bottom {
+      .grid-bottom,
+      .visit-layout {
         grid-template-columns: 1fr;
       }
     }
@@ -505,6 +618,9 @@
       </button>
       <button class="btn" id="btnSaveView">
         <span class="icon">💾</span> Guardar vista
+      </button>
+      <button class="btn" id="btnPrint">
+        <span class="icon">🖨️</span> Imprimir
       </button>
       <button class="btn" id="btnExportHtml">
         <span class="icon">⬇️</span> Exportar HTML
@@ -646,7 +762,7 @@
 
       <!-- Ranking delegados -->
       <article class="card">
-        <span class="card-badge>% demo</span>
+        <span class="card-badge">% demo</span>
         <h3>Ranking por delegados · índice global</h3>
         <p class="card-sub">
           Índice global promedio de todos sus centros evaluados · Top 5 delegados
@@ -684,6 +800,89 @@
         </div>
       </article>
     </section>
+
+    <!-- NUEVO MÓDULO: INFORME DE VISITA -->
+    <section class="card" style="margin-top:16px;">
+      <h3>Informe de visita</h3>
+      <p class="card-sub">
+        Módulo demo para registrar el detalle de una visita y sus resultados. (Pendiente de conexión con datos reales.)
+      </p>
+      <div class="visit-layout">
+        <!-- Columna izquierda -->
+        <div>
+          <div class="visit-meta-grid">
+            <div class="visit-field">
+              <span class="visit-label">Centro</span>
+              <select class="visit-select">
+                <option>Selecciona centro...</option>
+                <option>Madrid · Reina Mercedes</option>
+                <option>Madrid · Tetuán</option>
+                <option>Sevilla · Nervión</option>
+                <option>Bilbao · Gran Vía</option>
+              </select>
+            </div>
+            <div class="visit-field">
+              <span class="visit-label">Delegado</span>
+              <select class="visit-select">
+                <option>Selecciona delegado...</option>
+                <option>Blanca</option>
+                <option>Cecilia</option>
+                <option>Daniel</option>
+                <option>Eneritz</option>
+                <option>Luis</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="visit-meta-grid">
+            <div class="visit-field">
+              <span class="visit-label">Fecha visita</span>
+              <input type="date" class="visit-input" />
+            </div>
+            <div class="visit-field">
+              <span class="visit-label">Tipo visita</span>
+              <select class="visit-select">
+                <option>Regular</option>
+                <option>Apertura</option>
+                <option>Seguimiento</option>
+                <option>Formación</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="visit-field">
+            <span class="visit-label">% Procesos aplicados (demo)</span>
+            <input type="text" class="visit-input" value="84%" />
+          </div>
+          <div class="visit-field">
+            <span class="visit-label">% HIT / ARR (demo)</span>
+            <input type="text" class="visit-input" value="81% / 68%" />
+          </div>
+
+          <div class="visit-field">
+            <span class="visit-label">Etiquetas rápidas</span>
+            <div class="visit-tags">
+              <span class="visit-tag">✅ Objetivos cumplidos</span>
+              <span class="visit-tag">⚠️ Procesos mejorables</span>
+              <span class="visit-tag">📚 Formación realizada</span>
+              <span class="visit-tag">📝 Plan de acción</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div>
+          <div class="visit-field">
+            <span class="visit-label">Resumen de la visita</span>
+            <textarea class="visit-textarea" placeholder="Descripción breve de los hitos de la visita, acuerdos, incidencias... (demo)"></textarea>
+          </div>
+          <div class="visit-field">
+            <span class="visit-label">Plan de acción / próximos pasos</span>
+            <textarea class="visit-textarea" placeholder="Acciones acordadas, responsable y fechas objetivo (demo)"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
@@ -708,7 +907,7 @@
             label: '% HIT',
             data: [76, 77, 78, 79, 80, 81, 82, 83, 84, 83, 82, 82],
             borderColor: '#ef4444',
-            borderWidth: 2,
+            borderWidth: 3,
             tension: 0.35,
             fill: false,
             pointRadius: 2
@@ -718,7 +917,7 @@
             label: '% Conversión a prueba',
             data: [32, 33, 34, 35, 36, 37, 38, 39, 40, 40, 39, 40],
             borderColor: '#0ea5e9',
-            borderWidth: 2,
+            borderWidth: 3,
             tension: 0.35,
             fill: false,
             pointRadius: 2
@@ -728,7 +927,7 @@
             label: '% Conversión a venta',
             data: [21, 22, 23, 24, 25, 26, 27, 27, 28, 27, 26, 27],
             borderColor: '#a855f7',
-            borderWidth: 2,
+            borderWidth: 3,
             tension: 0.35,
             fill: false,
             pointRadius: 2
@@ -745,7 +944,12 @@
             labels: {
               usePointStyle: true,
               color: '#e5e7eb',
-              font: { size: 11 }
+              font: { size: 11, weight: 'bold' }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}%`
             }
           }
         },
@@ -790,7 +994,7 @@
         plugins: {
           legend: {
             position: 'bottom',
-            labels: { color: '#e5e7eb', font: { size: 11 } }
+            labels: { color: '#e5e7eb', font: { size: 11, weight: 'bold' } }
           },
           tooltip: {
             callbacks: {
@@ -832,7 +1036,7 @@
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            labels: { color: '#e5e7eb', font: { size: 11 } }
+            labels: { color: '#e5e7eb', font: { size: 11, weight: 'bold' } }
           },
           tooltip: {
             callbacks: {
@@ -886,7 +1090,7 @@
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            labels: { color: '#e5e7eb', font: { size: 11 } }
+            labels: { color: '#e5e7eb', font: { size: 11, weight: 'bold' } }
           },
           tooltip: {
             callbacks: { label: ctx => `${ctx.parsed.y}% · índice global` }
@@ -933,7 +1137,7 @@
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            labels: { color: '#e5e7eb', font: { size: 11 } }
+            labels: { color: '#e5e7eb', font: { size: 11, weight: 'bold' } }
           },
           tooltip: {
             callbacks: { label: ctx => `${ctx.parsed.y}%` }
@@ -959,7 +1163,6 @@
     });
 
     // --- Criterios de procesos (unificado Corner + Exclusivo, DEMO) ---
-    // Para la demo se incluyen muchos criterios reales + genéricos.
     const CRITERIOS_PROCESOS = [
       "Acogida al cliente con una sonrisa, amable y cercano",
       "Llamar al paciente por su nombre",
@@ -1011,7 +1214,6 @@
       "Uso de recordatorios SMS / email para citas",
       "Plan de fidelización aplicado",
       "Registro de competidor mencionado por el cliente",
-      // A partir de aquí se añaden criterios demo genéricos para completar más de 80
       "Criterio proceso demo 51",
       "Criterio proceso demo 52",
       "Criterio proceso demo 53",
@@ -1066,9 +1268,6 @@
       CRITERIOS_PROCESOS.forEach((crit, idx) => {
         const li = document.createElement('li');
         li.className = 'criteria-item';
-        if (!criteriosExpandido && idx >= MAX_VISIBLE_CRITERIOS) {
-          li.classList.add('hidden');
-        }
 
         const idxSpan = document.createElement('span');
         idxSpan.className = 'criteria-index';
@@ -1083,15 +1282,22 @@
         lista.appendChild(li);
       });
 
-      const ocultos = Math.max(CRITERIOS_PROCESOS.length - MAX_VISIBLE_CRITERIOS, 0);
-      if (!criteriosExpandido && ocultos > 0) {
-        resumen.textContent = `Mostrando ${MAX_VISIBLE_CRITERIOS} de ${CRITERIOS_PROCESOS.length} criterios (${ocultos} ocultos)`;
-        btn.textContent = 'Ver más criterios';
-        btn.style.display = 'inline-block';
-      } else if (criteriosExpandido && ocultos > 0) {
-        resumen.textContent = `Mostrando todos los ${CRITERIOS_PROCESOS.length} criterios`;
-        btn.textContent = 'Ver menos';
-        btn.style.display = 'inline-block';
+      if (!criteriosExpandido) {
+        lista.scrollTop = 0;
+      }
+
+      if (CRITERIOS_PROCESOS.length > MAX_VISIBLE_CRITERIOS) {
+        if (!criteriosExpandido) {
+          resumen.textContent = `Listado completo de ${CRITERIOS_PROCESOS.length} criterios (scroll para ver más)`;
+          btn.textContent = 'Expandir a altura completa';
+          btn.style.display = 'inline-block';
+          lista.style.maxHeight = '210px';
+        } else {
+          resumen.textContent = `Mostrando todos los ${CRITERIOS_PROCESOS.length} criterios (alto ampliado)`;
+          btn.textContent = 'Volver a vista reducida';
+          btn.style.display = 'inline-block';
+          lista.style.maxHeight = 'none';
+        }
       } else {
         resumen.textContent = `Mostrando todos los ${CRITERIOS_PROCESOS.length} criterios`;
         btn.style.display = 'none';
@@ -1120,6 +1326,7 @@
     const btnExportHtml = document.getElementById('btnExportHtml');
     const btnSyncCloud = document.getElementById('btnSyncCloud');
     const btnToggleTheme = document.getElementById('btnToggleTheme');
+    const btnPrint = document.getElementById('btnPrint');
     const selectCentro = document.getElementById('selectCentro');
     const selectDelegado = document.getElementById('selectDelegado');
     const resumenSub = document.getElementById('resumenSub');
@@ -1138,7 +1345,9 @@
 
     function actualizarTextoResumen() {
       const centroText = textoCentro(selectCentro.value);
-      const delegadoText = textoDelegado(selectDelegado.value);
+      const delegadoText = textoDelegado.select
+        ? textoDelegado(selectDelegado.value)
+        : textoDelegado(selectDelegado.value);
 
       resumenSub.textContent =
         'Visión rápida de procesos, HIT, primeros auxilios, conversiones y formaciones · ' +
@@ -1190,14 +1399,7 @@
       renderCriterios();
     }
 
-    // Clasificación KPIs:
-    // Procesos, HIT, Primeros auxilios, Formaciones:
-    //   Óptimos = 100%
-    //   Muy bien = 85–99%
-    //   Mejorable = <85%
-    // Conversiones:
-    //   Óptimas = >= 80%
-    //   Mejorable = < 80%
+    // Clasificación KPIs
     function actualizarEstadosKpi() {
       const kpiPills = document.querySelectorAll('.kpi-pill');
       kpiPills.forEach(pill => {
@@ -1259,6 +1461,11 @@
     btnSaveView.addEventListener('click', () => {
       saveConfig();
       showToast('Preferencias guardadas en este navegador');
+    });
+
+    // Imprimir
+    btnPrint.addEventListener('click', () => {
+      window.print();
     });
 
     // Exportar HTML
