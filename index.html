@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
+<html lang="es"><head>
+  <meta charset="UTF-8">
   <title>Control Center Audio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -444,7 +443,7 @@
     .criterios-container {
       min-height: 260px;
       max-height: 320px;
-      overflow-y: auto;
+      overflow-y: auto; /* scroll vertical para ver todos los criterios */
     }
 
     .ranking-list {
@@ -512,7 +511,7 @@
       color: var(--text-main);
     }
 
-    /* CENTROS PAGE Y DEMÁS */
+    /* CENTROS PAGE Y DEMÁS (igual que antes) */
     .centros-top {
       display: grid;
       grid-template-columns: 1.2fr 1.2fr 1fr;
@@ -1150,7 +1149,7 @@
       }
       .panel-graficos {
         max-height:none !important;
-        overflow:visible !important;
+        overflow:visible !Important;
       }
       .card {
         box-shadow:none !important;
@@ -1208,7 +1207,7 @@
     <div class="topbar">
       <div class="topbar-search">
         <span>🔍</span>
-        <input id="searchGlobal" placeholder="Buscar por centro, propietario o delegado..." />
+        <input id="searchGlobal" placeholder="Buscar por centro, propietario o delegado...">
       </div>
       <div class="topbar-buttons">
         <button class="btn" id="themeToggle">
@@ -1396,7 +1395,7 @@
               <button class="btn" id="btnAdjuntarExcel">
                 <span class="icon">📤</span> Adjuntar centros (Excel)
               </button>
-              <input type="file" id="inputExcel" accept=".xlsx,.xls" style="display:none" />
+              <input type="file" id="inputExcel" accept=".xlsx,.xls" style="display:none">
             </div>
 
             <div style="margin-top:4px; font-size:.74rem; color:var(--text-muted);">
@@ -1471,41 +1470,41 @@
               <div class="datos-grid">
                 <div>
                   <div class="dato-label">Centro</div>
-                  <input id="infCentro" class="field-input" readonly />
+                  <input id="infCentro" class="field-input" readonly>
                 </div>
                 <div>
                   <div class="dato-label">Provincia</div>
-                  <input id="infProvincia" class="field-input" readonly />
+                  <input id="infProvincia" class="field-input" readonly>
                 </div>
                 <div>
                   <div class="dato-label">Delegado</div>
-                  <input id="infDelegado" class="field-input" readonly />
+                  <input id="infDelegado" class="field-input" readonly>
                 </div>
                 <div>
                   <div class="dato-label">Tipo</div>
-                  <input id="infTipo" class="field-input" readonly />
+                  <input id="infTipo" class="field-input" readonly>
                 </div>
                 <div>
                   <div class="dato-label">Responsable audio</div>
-                  <input id="infRespAudio" class="field-input" readonly />
+                  <input id="infRespAudio" class="field-input" readonly>
                 </div>
                 <div>
                   <div class="dato-label">Fecha visita</div>
-                  <input id="infFecha" class="field-input" readonly />
+                  <input id="infFecha" class="field-input" readonly>
                 </div>
                 <div>
                   <div class="dato-label">Audiólogo</div>
-                  <input id="infAudiologo" class="field-input" />
+                  <input id="infAudiologo" class="field-input">
                 </div>
                 <div>
                   <div class="dato-label">Horas de servicio</div>
-                  <input id="infHoras" class="field-input" />
+                  <input id="infHoras" class="field-input">
                 </div>
                 <div class="dato-full" style="margin-top:4px;">
                   <button class="btn btn-cta" id="btnAdjuntarChecklist">
                     <span class="icon">📎</span> Adjuntar checklist
                   </button>
-                  <input type="file" id="inputChecklist" accept=".xlsx,.xls" style="display:none" />
+                  <input type="file" id="inputChecklist" accept=".xlsx,.xls" style="display:none">
                   <span id="nombreChecklist" style="margin-left:8px; font-size:.74rem; color:var(--text-muted);"></span>
                 </div>
               </div>
@@ -1592,27 +1591,27 @@
                 <span class="card-title">Formaciones y habilidades</span>
               </div>
               <div class="checklist-visita" style="margin-top:6px;">
-                <label><input type="checkbox" data-kpi="wsa" /> WSA</label>
-                <label><input type="checkbox" data-kpi="starkey" /> Starkey</label>
-                <label><input type="checkbox" data-kpi="neuroventas" /> Habilidades comerciales / Neuroventas</label>
-                <label><input type="checkbox" data-kpi="hit" /> HIT</label>
-                <label><input type="checkbox" data-kpi="telecare" /> Telecare</label>
-                <label><input type="checkbox" data-kpi="pia" /> PIA</label>
-                <label><input type="checkbox" data-kpi="telehear" /> Telehear</label>
-                <label><input type="checkbox" data-kpi="infinity" /> Financiación Infinity</label>
-                <label><input type="checkbox" data-kpi="seguros" /> Venta de seguro</label>
-                <label><input type="checkbox" data-kpi="primeros" /> Primeros auxilios (equipo)</label>
+                <label><input type="checkbox" data-kpi="wsa"> WSA</label>
+                <label><input type="checkbox" data-kpi="starkey"> Starkey</label>
+                <label><input type="checkbox" data-kpi="neuroventas"> Habilidades comerciales / Neuroventas</label>
+                <label><input type="checkbox" data-kpi="hit"> HIT</label>
+                <label><input type="checkbox" data-kpi="telecare"> Telecare</label>
+                <label><input type="checkbox" data-kpi="pia"> PIA</label>
+                <label><input type="checkbox" data-kpi="telehear"> Telehear</label>
+                <label><input type="checkbox" data-kpi="infinity"> Financiación Infinity</label>
+                <label><input type="checkbox" data-kpi="seguros"> Venta de seguro</label>
+                <label><input type="checkbox" data-kpi="primeros"> Primeros auxilios (equipo)</label>
                 <div class="checklist-heading">Producto y comunicación</div>
-                <label><input type="checkbox" data-kpi="rt" /> Audiometría RT</label>
-                <label><input type="checkbox" data-kpi="audio_test" /> Test de lectura audio</label>
-                <label><input type="checkbox" data-kpi="audio_screening" /> Screening audio</label>
-                <label><input type="checkbox" data-kpi="audio_manteleta" /> Manteleta audio</label>
-                <label><input type="checkbox" data-kpi="audio_escaparate" /> Escaparate visible audio</label>
-                <label><input type="checkbox" data-kpi="audio_salud" /> Salud auditiva en PDV</label>
-                <label><input type="checkbox" data-kpi="audio_renove" /> Elementos Renove</label>
-                <label><input type="checkbox" data-kpi="mgm" /> Elementos MGM</label>
-                <label><input type="checkbox" data-kpi="stock" /> Stock</label>
-                <label><input type="checkbox" data-kpi="tchin" /> Tchin Tchin</label>
+                <label><input type="checkbox" data-kpi="rt"> Audiometría RT</label>
+                <label><input type="checkbox" data-kpi="audio_test"> Test de lectura audio</label>
+                <label><input type="checkbox" data-kpi="audio_screening"> Screening audio</label>
+                <label><input type="checkbox" data-kpi="audio_manteleta"> Manteleta audio</label>
+                <label><input type="checkbox" data-kpi="audio_escaparate"> Escaparate visible audio</label>
+                <label><input type="checkbox" data-kpi="audio_salud"> Salud auditiva en PDV</label>
+                <label><input type="checkbox" data-kpi="audio_renove"> Elementos Renove</label>
+                <label><input type="checkbox" data-kpi="mgm"> Elementos MGM</label>
+                <label><input type="checkbox" data-kpi="stock"> Stock</label>
+                <label><input type="checkbox" data-kpi="tchin"> Tchin Tchin</label>
               </div>
             </article>
 
@@ -1626,21 +1625,21 @@
                   <div class="imagen-preview" data-target="ext">
                     Adjuntar imagen
                   </div>
-                  <input type="file" accept="image/*" data-input-img="ext" style="display:none" />
+                  <input type="file" accept="image/*" data-input-img="ext" style="display:none">
                 </div>
                 <div>
                   <div class="imagen-item-title">Centro interior</div>
                   <div class="imagen-preview" data-target="int">
                     Adjuntar imagen
                   </div>
-                  <input type="file" accept="image/*" data-input-img="int" style="display:none" />
+                  <input type="file" accept="image/*" data-input-img="int" style="display:none">
                 </div>
                 <div>
                   <div class="imagen-item-title">Gabinete</div>
                   <div class="imagen-preview" data-target="gab">
                     Adjuntar imagen
                   </div>
-                  <input type="file" accept="image/*" data-input-img="gab" style="display:none" />
+                  <input type="file" accept="image/*" data-input-img="gab" style="display:none">
                 </div>
               </div>
             </article>
@@ -1741,7 +1740,7 @@
       <div class="modal-body">
         <div class="modal-field">
           <label>Fecha</label>
-          <input id="visitaFecha" readonly />
+          <input id="visitaFecha" readonly>
         </div>
         <div class="modal-field">
           <label>Responsable audio</label>
@@ -1752,7 +1751,7 @@
         </div>
         <div class="modal-field">
           <label>Centro</label>
-          <input id="visitaCentro" list="listaCentros" />
+          <input id="visitaCentro" list="listaCentros">
           <datalist id="listaCentros"></datalist>
         </div>
       </div>
@@ -1772,23 +1771,23 @@
       <div class="modal-body">
         <div class="modal-field">
           <label>Código</label>
-          <input id="nuevoCodigo" />
+          <input id="nuevoCodigo">
         </div>
         <div class="modal-field">
           <label>Propietario</label>
-          <input id="nuevoPropietario" />
+          <input id="nuevoPropietario">
         </div>
         <div class="modal-field">
           <label>Centro</label>
-          <input id="nuevoCentro" />
+          <input id="nuevoCentro">
         </div>
         <div class="modal-field">
           <label>Provincia</label>
-          <input id="nuevoProvincia" />
+          <input id="nuevoProvincia">
         </div>
         <div class="modal-field">
           <label>Delegado</label>
-          <input id="nuevoDelegado" />
+          <input id="nuevoDelegado">
         </div>
       </div>
       <div class="modal-footer">
@@ -1921,7 +1920,7 @@
           <td><span class="tag ${t === 'Exclusivo' ? 'exclusivo' : 'corner'}">${t}</span></td>
           <td>
             <button class="btn-link btn-informe-centro" data-centro="${c.centro}">
-              ${informes ? \`Ver (\${informes})\` : "Añadir informe"}
+              ${informes ? `Ver (${informes})` : "Añadir informe"}
             </button>
           </td>
           <td>
@@ -2331,26 +2330,17 @@
     /* 80 CRITERIOS: estructura global */
     const criteriosGlobal = new Map(); // nombre -> {nombre, suma, total}
     let criteriosDemoActivo = false;
-    let ultimoChecklistCentro = null;
+    let ultimoChecklistCentro = null;  // {centro, data}
     const globalCharts = {};
 
-    // NORMALIZADOR ROBUSTO DE PORCENTAJES
     function normalizarPorcentaje(v) {
       if (v == null || v === "") return 0;
-      if (typeof v === "number") {
-        if (v <= 1) return Math.round(v * 100);
-        if (v > 100) return 100;
-        return Math.round(v);
+      let num = v;
+      if (typeof num !== "number") {
+        num = parseFloat(String(num).replace(",", "."));
+        if (isNaN(num)) return 0;
       }
-      let s = String(v).replace(",", ".");
-      // extrae solo números y puntos (para cosas tipo "PRUEBAS (80%)")
-      const match = s.match(/[\d.]+/g);
-      if (!match) return 0;
-      s = match.join("");
-      const num = parseFloat(s);
-      if (isNaN(num)) return 0;
       if (num <= 1) return Math.round(num * 100);
-      if (num > 100) return 100;
       return Math.round(num);
     }
 
@@ -2362,73 +2352,88 @@
       const total = 80;
       for (let i = 1; i <= total; i++) {
         const nombre = `Criterio ${i}`;
-        const pct = 60 + Math.round(Math.random()*40);
+        const pct = 60 + Math.round(Math.random()*40); // 60–100 %
         criteriosGlobal.set(nombre, { nombre, suma: pct, total: 100 });
       }
       actualizarGraficoCriterios();
     }
 
-    // LÓGICA DE PARSEO CHECKLISTS SEGÚN MAPEO ENTREGADO
     function parseChecklistRows(rows, tipo) {
+      // Lectura genérica que funciona tanto para CHECKLIST CORNER como para CHECKLIST EXCLUSIVO
+      // sin depender de filas/columnas fijas. Busca en cada fila un texto (criterio)
+      // y un valor lógico 0 / 1 / 2 en las primeras columnas.
       const criterios = [];
-      let rStart, rEnd, colCrit, colRes, filaProc, colProc, filaHit, colHit, filaPrueba, colPrueba, filaVenta, colVenta;
+      let totalCriterios = 0;
+      let totalAplica = 0;
+      let hit = false;
 
-      if (tipo === "EXCLUSIVO") {
-        // CHECKLIST EXCLUSIVO
-        // Criterios: B8–B102  => filas 7–101, colCrit=1 (B), colRes=5 (F)
-        // % Procesos: F104    => fila 103, col 5
-        // HIT: F65            => fila 64, col 5
-        // Conv. prueba: I126  => fila 125, col 8 (I)
-        // Conv. venta:  I127  => fila 126, col 8 (I)
-        rStart = 7;  rEnd = 101; colCrit = 1; colRes = 5;
-        filaProc = 103; colProc = 5;
-        filaHit  = 64;  colHit  = 5;
-        filaPrueba = 125; colPrueba = 8; // I
-        filaVenta  = 126; colVenta  = 8;
-      } else {
-        // CHECKLIST CORNER
-        // Criterios: B7–B88   => filas 6–87, colCrit=1 (B), colRes=5 (F)
-        // % Procesos: F90     => fila 89, col 5
-        // HIT: F63            => fila 62, col 5
-        // Conv. prueba: B92   => fila 91, col 1 (B)
-        // Conv. venta:  B93   => fila 92, col 1 (B)
-        rStart = 6;  rEnd = 87; colCrit = 1; colRes = 5;
-        filaProc = 89; colProc = 5;
-        filaHit  = 62; colHit  = 5;
-        filaPrueba = 91; colPrueba = 1; // B
-        filaVenta  = 92; colVenta  = 1;
-      }
-
-      for (let r=rStart; r<=rEnd && r<rows.length; r++) {
+      // Recorremos todas las filas del Excel
+      for (let r = 0; r < rows.length; r++) {
         const row = rows[r] || [];
-        const nombre = row[colCrit];
-        if (!nombre) continue;
-        const val = row[colRes];
-        const aplica = Number(val) === 1 ? 1 : 0;
-        criterios.push({ nombre: String(nombre).trim(), aplica });
+        if (!row.length) continue;
+
+        let colTexto = -1;
+        let colValor = -1;
+
+        // Buscamos en las primeras columnas el texto del criterio y el valor 0/1/2
+        const maxCols = Math.min(row.length, 8);
+        for (let c = 0; c < maxCols; c++) {
+          const val = row[c];
+          if (colTexto === -1 && typeof val === "string" && val.trim().length > 3) {
+            colTexto = c;
+          }
+          if (colValor === -1 && (val === 0 || val === 1 || val === 2)) {
+            colValor = c;
+          }
+        }
+
+        if (colTexto !== -1 && colValor !== -1) {
+          const nombre = String(row[colTexto]).trim();
+          const v = row[colValor];
+
+          // 1 = aplica, 0 = no aplica, 2 = lo tratamos como "aplica" para no penalizar
+          const aplica = (v === 1 || v === 2);
+
+          criterios.push({ nombre, aplica });
+          totalCriterios++;
+          if (aplica) totalAplica++;
+
+          // Detección de HIT: cualquier criterio cuyo texto contenga "HIT" y esté marcado
+          if (nombre.toUpperCase().includes("HIT") && aplica) {
+            hit = true;
+          }
+        }
       }
 
-      const rowProc   = rows[filaProc]   || [];
-      const rowHit    = rows[filaHit]    || [];
-      const rowPrueba = rows[filaPrueba] || [];
-      const rowVenta  = rows[filaVenta]  || [];
+      // % de aplicación de procesos calculado desde los criterios
+      const procesosPct = totalCriterios
+        ? Math.round((100 * totalAplica) / totalCriterios)
+        : 0;
 
-      const procesosRaw   = rowProc[colProc];
-      const hitRaw        = rowHit[colHit];
-      const pruebaRaw     = rowPrueba[colPrueba];
-      const ventaRaw      = rowVenta[colVenta];
+      const areasMejora = totalCriterios - totalAplica;
 
-      const procesosPct   = clampPct(normalizarPorcentaje(procesosRaw));
-      const convPruebaPct = clampPct(normalizarPorcentaje(pruebaRaw));
-      const convVentaPct  = clampPct(normalizarPorcentaje(ventaRaw));
-      const hit           = Number(hitRaw) === 1 || String(hitRaw).toUpperCase() === "SI";
+      // Intento de inferir alguna métrica de conversión si el checklist la tuviera.
+      // Buscamos el valor numérico (>= 10 y <= 100) más alto del archivo como demo.
+      let maxPct = 0;
+      for (let r = 0; r < rows.length; r++) {
+        const row = rows[r] || [];
+        for (let c = 0; c < row.length; c++) {
+          const v = row[c];
+          if (typeof v === "number" && !Number.isNaN(v) && v >= 10 && v <= 100) {
+            if (v > maxPct) maxPct = v;
+          }
+        }
+      }
 
-      const areasMejora = criterios.filter(c => !c.aplica).length;
+      // Si no encontramos nada, dejamos un valor demo de 80%
+      const convPruebaPct = maxPct || 80;
+      const convVentaPct  = maxPct || 80;
 
       return { tipo, procesosPct, convPruebaPct, convVentaPct, hit, criterios, areasMejora };
     }
 
     function integrarChecklistEnMetricas(centroNombre, parsed) {
+      // si había datos demo, los limpiamos al primer checklist real
       if (criteriosDemoActivo) {
         criteriosGlobal.clear();
         criteriosDemoActivo = false;
@@ -2460,14 +2465,15 @@
       const labels = top.map(i => i.nombre);
       const data   = top.map(i => i.pct);
       const colors = top.map(i =>
-        i.pct >= 100 ? "#16a34a" :
-        i.pct >= 85  ? "#22c55e" :
-                       "#ef4444"
+        i.pct >= 100 ? "#16a34a" :     // 100% Óptimo
+        i.pct >= 85  ? "#22c55e" :     // 85–99% Muy bien
+                       "#ef4444"       // <85% Mejorable
       );
 
       const msg = $("#criteriosEmptyMsg");
       if (msg) msg.style.display = "none";
 
+      // altura del canvas según nº de criterios -> scroll en el contenedor
       const canvas = document.getElementById("chartCriteriosDetalle");
       if (canvas) {
         const pxPerRow = 18;
@@ -2529,47 +2535,31 @@
       }
     }
 
-    // CORREGIDO: lectura robusta de checklist, hoja PROCESOS Y BÁSICOS
     function procesarChecklist(file, centroNombre) {
       const reader = new FileReader();
       reader.onload = evt => {
         try {
           const data = new Uint8Array(evt.target.result);
           const workbook = XLSX.read(data, { type: "array" });
-
-          // Buscar hoja que contenga "PROCESOS" (PROCESOS Y BÁSICOS)
-          const upperSheetNames = workbook.SheetNames.map(n => n.toUpperCase());
-          let sheetIndex = upperSheetNames.findIndex(n => n.includes("PROCESOS"));
-          if (sheetIndex === -1) sheetIndex = 0;
-          const sheetName = workbook.SheetNames[sheetIndex];
+          const sheetName = workbook.SheetNames[0];
           const sheet = workbook.Sheets[sheetName];
-
-          if (!sheet) {
-            throw new Error("Hoja de procesos no encontrada en el checklist");
-          }
-
           const rows = XLSX.utils.sheet_to_json(sheet, { header:1 });
-
           const nameUpper = file.name.toUpperCase();
           let tipo = "CORNER";
           if (nameUpper.includes("EXCLUSIVO")) tipo = "EXCLUSIVO";
           else if (nameUpper.includes("CORNER")) tipo = "CORNER";
-
           const parsed = parseChecklistRows(rows, tipo);
           ultimoChecklistCentro = { centro: centroNombre, data: parsed };
           integrarChecklistEnMetricas(centroNombre, parsed);
-
           // KPIs de centro desde checklist
           $("#kpiCentroProcesos").textContent = parsed.procesosPct + "%";
           $("#kpiCentroPrueba").textContent   = parsed.convPruebaPct + "%";
           $("#kpiCentroVenta").textContent    = parsed.convVentaPct + "%";
           $("#kpiCentroHit").textContent      = parsed.hit ? "Sí" : "No";
-
-          crearChartsCentro();
           actualizarChartsCentro();
         } catch (err) {
-          console.error("Error procesando checklist:", err);
-          alert("No se ha podido leer el checklist. Revisa que sea el CHECKLIST CORNER o CHECKLIST EXCLUSIVO correcto.");
+          console.error(err);
+          alert("No se ha podido leer el checklist. Revisa el formato (CORNER / EXCLUSIVO).");
         }
       };
       reader.readAsArrayBuffer(file);
@@ -2857,7 +2847,7 @@
       $("#kpiCentroProcesos").textContent = procesos + "%";
       $("#kpiCentroPrueba").textContent   = convPrueba + "%";
       $("#kpiCentroVenta").textContent    = convVenta + "%";
-      $("#kpiCentroHit").textContent      = parsed ? (parsed.hit ? "Sí" : "No") : (hitVal + "%");
+      $("#kpiCentroHit").textContent      = hitVal + "%";
 
       centroCharts.radar.data.datasets[0].data = [
         formaciones,
@@ -2981,19 +2971,7 @@
         dashboardAcum.areas      += centroMetricsActual.areasMejora || 0;
         dashboardAcum.n += 1;
         actualizarDashboardDesdeAcum();
-
-        // Actualizar contador de informes y estado AAR en la tabla
         informesPorCentro[centroActual.centro] = (informesPorCentro[centroActual.centro] || 0) + 1;
-
-        if (flags.aar) {
-          centroActual.aar = "Sí";
-        } else if (flags.hit) {
-          centroActual.aar = "En formación";
-        } else {
-          centroActual.aar = "No";
-        }
-        aarPorCentro[centroActual.centro] = centroActual.aar;
-
         renderTablaCentros();
       }
       if (visitaActual) {
